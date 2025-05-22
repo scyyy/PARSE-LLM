@@ -115,16 +115,16 @@ def GMM_clustering(log_content, similarity_function):
     max_components = 150
 
     def compute_silhouette_score(n):
-        gmm = GaussianMixture(n_components=n, covariance_type='full', n_init=10)  # 增加 n_init 稳定模型
+        gmm = GaussianMixture(n_components=n, covariance_type='full', n_init=10)
         labels = gmm.fit_predict(X_reduced)
         score = silhouette_score(X_reduced, labels)
         return score
 
     silhouette_scores = Parallel(n_jobs=-1)(delayed(compute_silhouette_score)(n) for n in tqdm(range(2, max_components + 1), desc='calculating silhouette_score'))
 
-    best_n_components = np.argmax(silhouette_scores) + 2  # +2 因为 range 从 2 开始
+    best_n_components = np.argmax(silhouette_scores) + 2 
 
-    gmm = GaussianMixture(n_components=best_n_components, covariance_type='full', n_init=50)  # 增加 n_init
+    gmm = GaussianMixture(n_components=best_n_components, covariance_type='full', n_init=50)
     gmm.fit(X_reduced)
 
     labels = gmm.predict(X_reduced)
@@ -146,7 +146,7 @@ def GMM_clustering(log_content, similarity_function):
         for cluster_label, logs in fine_grained_clusters.items():
             if log in logs:
                 final_labeled_logs.append([log, cluster_label])
-                break  # 一旦找到就跳出，避免重复赋值
+                break
 
     end_time = time.time()
     execution_time = end_time - start_time
@@ -160,7 +160,6 @@ def GMM_clustering_with_dynamic_components(log_content, similarity_function, cha
 
     start_time = time.time()
 
-    # 特征提取
     if similarity_function == "tfidf":
         X = TFIDF(log_content)
     elif similarity_function == "bert":
