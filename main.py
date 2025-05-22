@@ -1,6 +1,6 @@
 import argparse
 from llm_infer import infer_dataset
-from model_selector import llm_model_selector  # 你需要提供此文件或使用现成的 LLM 接口，如 OpenAI/Transformers 实例
+from model_selector import llm_model_selector
 
 def parse_args():
     parser = argparse.ArgumentParser(description="LLM-based Log Template Inference")
@@ -16,8 +16,7 @@ def parse_args():
 def main():
     args = parse_args()
     
-    # 加载你的 LLM 实例（替换为你使用的 LLM 接口）
-    llm = get_llm()
+    llm = llm_model_selector()
 
     # 调用推理函数
     infer_dataset(
