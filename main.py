@@ -18,7 +18,6 @@ def main():
     
     llm = llm_model_selector()
 
-    # 调用推理函数
     infer_dataset(
         llm=llm,
         data_path=args.input_path,
